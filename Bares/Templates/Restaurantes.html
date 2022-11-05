@@ -1,0 +1,28 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+
+<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0" id="titulo-listas">Búsqueda de restaurantes:</h2>
+
+<!-- Formulario de busqueda-->
+<form action="{% url 'buscar_restaurante' %}" method="GET">{% csrf_token %}
+    <p>Ingrese su busqueda: <input type="string" name="restaurante"/> </p>
+    <input type="submit" value="Buscar">
+</form>
+
+</br>
+
+<h4>Listado de restaurantes disponibles:</h4>
+
+<!-- Listado de bares-->
+<ul>
+    {% for restaurante in listarestaurantes %}
+        <li><strong>{{restaurante.nombre}}</strong> - {{restaurante.email}} - {{restaurante.telefono}}</li>
+    {% endfor %}
+</ul>
+
+<p><a href="{% url 'restaurante_formulario' %}">Agregar restaurante</a></p>
+
+{% endblock contenidoQueCambia %}

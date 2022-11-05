@@ -1,0 +1,27 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+
+<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0" id="titulo-listas">Búsqueda de heladerías:</h2>
+
+<!-- Formulario de busqueda-->
+<form action="{% url 'buscar_heladeria' %}" method="GET">{% csrf_token %}
+    <p>Ingrese su busqueda: <input type="string" name="heladeria"/> </p>
+    <input type="submit" value="Buscar">
+</form>
+
+</br>
+
+<h4>Listado de heladerías disponibles:</h4>
+
+<ul>
+    {% for heladeria in listaheladerias %}
+        <li><strong>{{heladeria.nombre}}</strong> - {{heladeria.email}} - {{heladeria.telefono}}</li>
+    {% endfor %}
+</ul>
+
+<p><a href="{% url 'heladeria_formulario' %}">Agregar heladeria</a></p>
+
+{% endblock contenidoQueCambia %}

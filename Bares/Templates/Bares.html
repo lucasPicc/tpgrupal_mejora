@@ -1,0 +1,31 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+
+    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0" id="titulo-listas">Búsqueda de bares:</h2>
+
+    <h4>Listado de bares disponibles:</h4>
+
+    <form action="{% url 'buscar_bar' %}" method="GET">{% csrf_token %}
+        <p>Ingrese su busqueda <input type="string" name="bar"/> </p>
+        <input type="submit" value="Buscar">
+    </form>
+    
+    <ul>
+        {% for bar in listabares %}
+            <li><strong>{{bar.nombre}}</strong> - {{bar.email}} - {{bar.telefono}}</li>
+            <form action="{% url 'eliminaBar' bar.id %}" method="POST">{% csrf_token %}
+                <button type="submit"> Eliminar </button>
+            </form>
+            <button>
+                <a href="{% url 'editaBar' bar.id %}">Editar</a>
+            </button>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{% url 'bar_formulario' %}">Agregar bar</a></p>
+        
+
+{% endblock contenidoQueCambia %}

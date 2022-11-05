@@ -1,0 +1,23 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+
+<h3>Resultados de: "{{query}}"</h3>
+
+{% if bar %}
+<ul>
+    {% for elem in bar %}
+    <li><strong>{{elem.nombre}}</strong> - {{elem.email}} - {{elem.telefono}}</li>
+    {% endfor %}
+</ul>
+
+{% else %}
+
+<p>No hubo coincidencias.</p>
+
+{% endif %}
+
+{% endblock contenidoQueCambia %}
+
