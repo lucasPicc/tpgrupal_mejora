@@ -1,0 +1,14 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+
+<h4>Vista en detalle de bares:</h4>
+
+<ul>
+    <li><strong>{{bares.nombre}}</strong> - {{bares.email}} - {{bares.telefono}}</li>
+</ul>
+
+
+{% endblock contenidoQueCambia %}

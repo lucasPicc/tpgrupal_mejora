@@ -19,9 +19,12 @@
 <ul>
     {% for heladeria in listaheladerias %}
         <li><strong>{{heladeria.nombre}}</strong> - {{heladeria.email}} - {{heladeria.telefono}}</li>
+        <button>
+            <a href="{% url 'heladeria_update' heladeria.id %}">Editar</a>
+        </button>
     {% endfor %}
 </ul>
 
-<p><a href="{% url 'heladeria_formulario' %}">Agregar heladeria</a></p>
+<p><a href="{% url 'heladeria_create' %}">Agregar heladeria</a></p>
 
 {% endblock contenidoQueCambia %}

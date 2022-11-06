@@ -9,6 +9,8 @@ from django.views.generic.edit import DeleteView, UpdateView, CreateView
 def inicio(request):
     return render(request, 'inicio.html')
 
+# CREACIÓN DE LISTAS
+
 class BaresList(ListView):
     model = Bares
     template_name = 'bares.html'
@@ -24,62 +26,56 @@ class HeladeriasList(ListView):
     template_name = 'heladerias.html'
     context_object_name = "listaheladerias"
 
-def bar_formulario(request):
-    if request.method == 'POST':
-        mi_formulario = Bar_formulario(request.POST)
-        if mi_formulario.is_valid():
-            data = mi_formulario.cleaned_data
-            bar = Bares(nombre=data['nombre'], email=data['email'], telefono=data['telefono'])
-            bar.save()
-            
-            return redirect('Bares')
-    else:
-        mi_formulario = Bar_formulario()
+# VISTAS DE DETALLE
 
-    return render(request, 'bar_formulario.html', {'mi_formulario':mi_formulario})
+class BaresDetail(DetailView):
+    model = Bares
+    template_name = 'bares_detalle.html'
 
-def restaurante_formulario(request):
-    if request.method == 'POST':
-        mi_formulario = Restaurante_formulario(request.POST)
-        if mi_formulario.is_valid():
-            data = mi_formulario.cleaned_data
-            restaurante = Restaurantes(nombre=data['nombre'], email=data['email'], telefono=data['telefono'])
-            restaurante.save()
-            
-            return redirect('Restaurantes')
-    else:
-        mi_formulario = Restaurante_formulario()
+# CREACIÓN DE ELEMENTOS
 
-    return render(request, 'restaurante_formulario.html', {'mi_formulario':mi_formulario})
+class BaresCreate(CreateView):
+    model = Bares
+    template_name = 'bares_create.html'
+    fields = ["nombre", "email", "telefono"]
+    success_url = "/app-bares/bares/"
 
-def heladeria_formulario(request):
-    if request.method == 'POST':
-        mi_formulario = Heladeria_formulario(request.POST)
-        if mi_formulario.is_valid():
-            data = mi_formulario.cleaned_data
-            heladeria = Heladerias(nombre=data['nombre'], email=data['email'], telefono=data['telefono'])
-            heladeria.save()
-            
-            return redirect('Heladerias')
-    else:
-        mi_formulario = Heladeria_formulario()
+class RestaurantesCreate(CreateView):
+    model = Restaurantes
+    template_name = 'restaurantes_create.html'
+    fields = ("__all__")
+    success_url = "/app-bares/restaurantes/"
 
-    return render(request, 'heladeria_formulario.html', {'mi_formulario':mi_formulario})
+class HeladeriasCreate(CreateView):
+    model = Heladerias
+    template_name = 'heladerias_create.html'
+    fields = ("__all__")
+    success_url = "/app-bares/heladerias/"
 
-def buscar_restaurante (request):
-    resto_busqueda= request.GET['restaurante']
-    restoran= Restaurantes.objects.filter(nombre=resto_busqueda)
-    return render(request, 'resultado_restaurante.html', {'restaurante': restoran, 'query': resto_busqueda})
+# ACTUALIZAR OBJETOS
 
-def buscar_bar (request):
-    bar_busqueda= request.GET['bar']
-    mi_bar= Bares.objects.filter(nombre=bar_busqueda)
-    return render(request, 'resultado_bar.html', {'bar': mi_bar, 'query': bar_busqueda})
+class BaresUpdate(UpdateView):
+    model = Bares
+    template_name = 'bares_update.html'
+    fields = ("__all__")
+    success_url = "/app-bares/bares/"
+    context_object_name = "bares"
 
-def buscar_heladeria (request):
-    heladeria_busqueda= request.GET['heladeria']
-    mi_heladeria= Heladerias.objects.filter(nombre=heladeria_busqueda)
-    return render(request, 'resultado_heladeria.html', {'heladeria': mi_heladeria, 'query': heladeria_busqueda})
+class RestaurantesUpdate(UpdateView):
+    model = Restaurantes
+    template_name = 'restaurantes_update.html'
+    fields = ("__all__")
+    success_url = "/app-bares/restaurantes/"
+    context_object_name = "restaurantes"
+
+class HeladeriasUpdate(UpdateView):
+    model = Heladerias
+    template_name = 'heladerias_update.html'
+    fields = ("__all__")
+    success_url = "/app-bares/heladerias/"
+    context_object_name = "heladerias"
+
+# ELIMINAR OBJETOS
 
 def eliminar_bar(request, id):
     bar = Bares.objects.get(id=id)
@@ -107,3 +103,18 @@ def editar_bar(request, id):
             "telefono": bar.telefono,
         })
         return render(request, "editar_bar.html", {"miFormulario": miFormulario, "id": bar.id})
+
+def buscar_restaurante (request):
+    resto_busqueda= request.GET['restaurante']
+    restoran= Restaurantes.objects.filter(nombre=resto_busqueda)
+    return render(request, 'resultado_restaurante.html', {'restaurante': restoran, 'query': resto_busqueda})
+
+def buscar_bar (request):
+    bar_busqueda= request.GET['bar']
+    mi_bar= Bares.objects.filter(nombre=bar_busqueda)
+    return render(request, 'resultado_bar.html', {'bar': mi_bar, 'query': bar_busqueda})
+
+def buscar_heladeria (request):
+    heladeria_busqueda= request.GET['heladeria']
+    mi_heladeria= Heladerias.objects.filter(nombre=heladeria_busqueda)
+    return render(request, 'resultado_heladeria.html', {'heladeria': mi_heladeria, 'query': heladeria_busqueda})

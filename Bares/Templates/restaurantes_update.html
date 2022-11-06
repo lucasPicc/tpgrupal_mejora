@@ -4,9 +4,9 @@
 
 {% block contenidoQueCambia %}
         
-    <form action="{% url 'editaBar' id %}" method="POST">{% csrf_token %}
+    <form action="{% url 'restaurante_update' restaurantes.id %}" method="POST">{% csrf_token %}
 
-        {{miFormulario.as_p}}
+        {{form.as_p}}
 
         <input type="submit" value="Actualizar"/>
 

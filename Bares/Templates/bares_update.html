@@ -1,0 +1,15 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+        
+    <form action="{% url 'bar_update' bares.id %}" method="POST">{% csrf_token %}
+
+        {{form.as_p}}
+
+        <input type="submit" value="Actualizar"/>
+
+    </form>
+
+{% endblock contenidoQueCambia %}

@@ -4,9 +4,9 @@
 
 {% block contenidoQueCambia %}
 
-    <form action="{% url 'heladeria_formulario' %}" method="POST">{% csrf_token %}
+    <form action="{% url 'heladeria_create' %}" method="POST">{% csrf_token %}
         
-        {{mi_formulario.as_p}}
+        {{form.as_p}}
         
         <input type="submit" value="Agregar">
     
