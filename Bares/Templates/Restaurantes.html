@@ -20,9 +20,14 @@
 <ul>
     {% for restaurante in listarestaurantes %}
         <li><strong>{{restaurante.nombre}}</strong> - {{restaurante.email}} - {{restaurante.telefono}}</li>
-        <button>
-            <a href="{% url 'restaurante_update' restaurante.id %}">Editar</a>
-        </button>
+        <div>
+            <button>
+                <a href="{% url 'restaurante_delete' restaurante.id %}">Eliminar</a>
+            </button>
+            <button>
+                <a href="{% url 'restaurante_update' restaurante.id %}">Editar</a>
+            </button>
+        </div>
     {% endfor %}
 </ul>
 

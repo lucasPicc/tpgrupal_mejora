@@ -77,32 +77,22 @@ class HeladeriasUpdate(UpdateView):
 
 # ELIMINAR OBJETOS
 
-def eliminar_bar(request, id):
-    bar = Bares.objects.get(id=id)
-    bar.delete()
-    bares = Bares.objects.all()
-    return render(request, "Bares.html", {"listabares": bares})  
+class BaresDelete(DeleteView):
+    model = Bares
+    template_name = 'bares_delete.html'
+    success_url = "/app-bares/bares/"
 
-def editar_bar(request, id):
-    bar = Bares.objects.get(id=id)
-    if request.method == 'POST':
-        miFormulario = Bar_formulario(request.POST)
+class HeladeriasDelete(DeleteView):
+    model = Heladerias
+    template_name = 'heladerias_delete.html'
+    success_url = "/app-bares/heladerias/"
 
-        if miFormulario.is_valid():
-            data = miFormulario.cleaned_data
-            bar.nombre = data["nombre"]
-            bar.email = data["email"]
-            bar.telefono = data["telefono"]
-            bar.save()
-            return redirect('Bares')
-    
-    else:
-        miFormulario = Bar_formulario(initial={
-            "nombre": bar.nombre,
-            "email": bar.email,
-            "telefono": bar.telefono,
-        })
-        return render(request, "editar_bar.html", {"miFormulario": miFormulario, "id": bar.id})
+class RestaurantesDelete(DeleteView):
+    model = Restaurantes
+    template_name = 'restaurantes_delete.html'
+    success_url = "/app-bares/restaurantes/"
+
+# BUSCAR REGISTROS
 
 def buscar_restaurante (request):
     resto_busqueda= request.GET['restaurante']

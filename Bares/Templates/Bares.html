@@ -16,12 +16,14 @@
     <ul>
         {% for bar in listabares %}
             <li><strong><a href="{% url 'detalle_bares' bar.id %}">{{bar.nombre}}</a></strong> - {{bar.email}} - {{bar.telefono}}</li>
-            <form action="{% url 'eliminaBar' bar.id %}" method="POST">{% csrf_token %}
-                <button type="submit"> Eliminar </button>
-            </form>
-            <button>
-                <a href="{% url 'bar_update' bar.id %}">Editar</a>
-            </button>
+            <div>
+                <button>
+                    <a href="{% url 'bar_delete' bar.id %}">Eliminar</a>
+                </button>
+                <button>
+                    <a href="{% url 'bar_update' bar.id %}">Editar</a>
+                </button>
+            </div>
         {% endfor %}
     </ul>
 

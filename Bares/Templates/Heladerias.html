@@ -19,9 +19,14 @@
 <ul>
     {% for heladeria in listaheladerias %}
         <li><strong>{{heladeria.nombre}}</strong> - {{heladeria.email}} - {{heladeria.telefono}}</li>
-        <button>
-            <a href="{% url 'heladeria_update' heladeria.id %}">Editar</a>
-        </button>
+        <div>
+            <button>
+                <a href="{% url 'heladeria_delete' heladeria.id %}">Eliminar</a>
+            </button>
+            <button>
+                <a href="{% url 'heladeria_update' heladeria.id %}">Editar</a>
+            </button>
+        </div>
     {% endfor %}
 </ul>
 
