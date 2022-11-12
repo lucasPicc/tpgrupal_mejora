@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Bares, Restaurantes, Heladerias
-from .forms import Bar_formulario, Restaurante_formulario, Heladeria_formulario, Buscar_formulario
+from .forms import Bar_formulario, Restaurante_formulario, Heladeria_formulario, Buscar_formulario, UserEditForm
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView, UpdateView, CreateView
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def inicio(request):
     return render(request, 'inicio.html')
@@ -79,23 +81,23 @@ class HeladeriasUpdate(UpdateView):
 
 # ELIMINAR OBJETOS
 
-class BaresDelete(DeleteView):
+class BaresDelete(LoginRequiredMixin, DeleteView):
     model = Bares
     template_name = 'bares_delete.html'
     success_url = "/app-bares/bares/"
 
-class HeladeriasDelete(DeleteView):
+class HeladeriasDelete(LoginRequiredMixin, DeleteView):
     model = Heladerias
     template_name = 'heladerias_delete.html'
     success_url = "/app-bares/heladerias/"
 
-class RestaurantesDelete(DeleteView):
+class RestaurantesDelete(LoginRequiredMixin, DeleteView):
     model = Restaurantes
     template_name = 'restaurantes_delete.html'
     success_url = "/app-bares/restaurantes/"
 
 # BUSCAR REGISTROS
-
+@login_required
 def buscar_restaurante (request):
     resto_busqueda= request.GET['restaurante']
     restoran= Restaurantes.objects.filter(nombre=resto_busqueda)
@@ -111,6 +113,7 @@ def buscar_heladeria (request):
     mi_heladeria= Heladerias.objects.filter(nombre=heladeria_busqueda)
     return render(request, 'resultado_heladeria.html', {'heladeria': mi_heladeria, 'query': heladeria_busqueda})
 
+# USUARIOS
 def login_view(request):
     if request.method == 'POST':
         miFormulario = AuthenticationForm(request, data=request.POST)
@@ -144,3 +147,26 @@ def register(request):
     else:
         miFormulario = UserCreationForm()
         return render(request, 'registro.html', {'miFormulario': miFormulario})
+
+def editar_perfil(request):
+    usuario = request.user
+
+    if request.method =='POST':
+        miFormulario = UserEditForm(request.POST)
+
+        if miFormulario.is_valid():
+            data = miFormulario.cleaned_data
+            usuario.first_name = data["first_name"]
+            usuario.last_name = data["last_name"]
+            usuario.email = data["email"]
+            usuario.set_password(data['password1'])
+            
+            usuario.save()
+
+            return render(request, 'inicio.html', {"mensaje": "Datos actualizados"})
+
+        return render(request, 'editar_perfil.html', {"mensaje": "Las constraseñas no coinciden"})
+        
+    else:
+        miFormulario = UserEditForm(instance=request.user)
+        return render(request, 'editar_perfil.html', {"miFormulario": miFormulario})
