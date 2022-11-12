@@ -4,7 +4,7 @@ from django.db import models
 class Bares(models.Model):
 
     nombre = models.CharField(max_length = 100)
-    email = models.EmailField()
+    email = models.EmailField(verbose_name="Correo electrónico")
     telefono = models.IntegerField()
 
     def __str__(self):
@@ -14,7 +14,7 @@ class Bares(models.Model):
 class Heladerias(models.Model):
 
     nombre = models.CharField(max_length = 100)
-    email = models.EmailField()
+    email = models.EmailField(verbose_name="Correo electrónico")
     telefono = models.IntegerField()
 
     def __str__(self):
@@ -23,7 +23,7 @@ class Heladerias(models.Model):
 class Restaurantes(models.Model):
 
     nombre = models.CharField(max_length = 100)
-    email = models.EmailField()
+    email = models.EmailField(verbose_name="Correo electrónico")
     telefono = models.IntegerField()
 
     def __str__(self):
