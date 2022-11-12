@@ -1,0 +1,15 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+
+    <h5>Crea tu cuenta de Barapp:</h5>
+    <form action="{% url 'registrar' %}" method="POST">{% csrf_token %}
+
+        {{miFormulario.as_p}}
+        <input type="submit" value="Registrar">
+
+    </form>
+
+{% endblock contenidoQueCambia %}

@@ -5,6 +5,8 @@ from .forms import Bar_formulario, Restaurante_formulario, Heladeria_formulario,
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView, UpdateView, CreateView
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import authenticate, login, logout
 
 def inicio(request):
     return render(request, 'inicio.html')
@@ -108,3 +110,37 @@ def buscar_heladeria (request):
     heladeria_busqueda= request.GET['heladeria']
     mi_heladeria= Heladerias.objects.filter(nombre=heladeria_busqueda)
     return render(request, 'resultado_heladeria.html', {'heladeria': mi_heladeria, 'query': heladeria_busqueda})
+
+def login_view(request):
+    if request.method == 'POST':
+        miFormulario = AuthenticationForm(request, data=request.POST)
+
+        if miFormulario.is_valid():
+            data = miFormulario.cleaned_data
+            usuario = data["username"]
+            psw = data["password"]
+            user = authenticate(username=usuario, password=psw)
+            if user:
+                login(request, user)
+                return render(request, 'inicio.html', {"mensaje": f"Bienvendido {usuario}"})
+            else:
+                return render(request, 'inicio.html', {"mensaje": f"Error, datos incorrectos"})
+        return render(request, 'inicio.html', {"mensaje": f"Error, formulario invalido"})   
+        
+    else:
+        miFormulario = AuthenticationForm()
+        return render(request, 'login.html', {'miFormulario': miFormulario})
+
+def register(request):
+    if request.method == 'POST':
+        miFormulario = UserCreationForm(request.POST)
+
+        if miFormulario.is_valid():
+            username = miFormulario.cleaned_data["username"]
+            miFormulario.save()
+            return render(request, 'inicio.html', {"mensaje": f"Usuario {username} creado con éxito."})
+        else:
+            return render(request, 'inicio.html', {"mensaje": "Error al crear el usuario."})
+    else:
+        miFormulario = UserCreationForm()
+        return render(request, 'registro.html', {'miFormulario': miFormulario})

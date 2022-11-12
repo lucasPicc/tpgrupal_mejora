@@ -34,6 +34,12 @@
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href= "{% url 'Bares' %}">Bares</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="{% url 'Restaurantes' %}">Restaurantes</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="{% url 'Heladerias' %}">Heladerias</a></li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-link py-3 px-0 px-lg-3 rounded">¡Bienvenido {{user.username}}!</li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="btn btn-outline-light" href="{% url 'logout' %}">Logout</a></li>
+                        {% else %}
+                        <li class="nav-item mx-0 mx-lg-1"><a class="btn btn-outline-light" href="{% url 'login' %}">Login</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -53,7 +59,7 @@
                 </div>
                 <!-- Masthead Subheading-->
                 <p class="masthead-subheading font-weight-light mb-0">Cervecerias - Restaurantes - Heladerias</p>
-            </div>
+    </div>
         </header>
 
         <div class="container" id="barapp">

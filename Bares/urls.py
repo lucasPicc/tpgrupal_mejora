@@ -1,5 +1,6 @@
-from .views import RestaurantesDelete ,HeladeriasDelete ,BaresDelete, HeladeriasUpdate, RestaurantesUpdate, HeladeriasCreate, RestaurantesCreate, BaresList, BaresDetail, BaresCreate, BaresUpdate, buscar_restaurante, RestaurantesList, HeladeriasList, inicio, buscar_bar, buscar_heladeria
+from .views import RestaurantesDelete ,HeladeriasDelete ,BaresDelete, HeladeriasUpdate, RestaurantesUpdate, HeladeriasCreate, RestaurantesCreate, BaresList, BaresDetail, BaresCreate, BaresUpdate, buscar_restaurante, RestaurantesList, HeladeriasList, inicio, buscar_bar, buscar_heladeria, login_view, register
 from django.urls import path
+from django.contrib.auth.views import LogoutView
 
 
 urlpatterns = [
@@ -20,4 +21,7 @@ urlpatterns = [
     path('buscar-restaurante/', buscar_restaurante, name ="buscar_restaurante"),
     path('buscar-bar/', buscar_bar, name ="buscar_bar"),
     path('buscar-heladeria/', buscar_heladeria, name ="buscar_heladeria"),
+    path('login/', login_view, name ="login"),
+    path('registrar/', register, name ="registrar"),
+    path('logout/', LogoutView.as_view(template_name="logout.html"), name ="logout"),
 ]
