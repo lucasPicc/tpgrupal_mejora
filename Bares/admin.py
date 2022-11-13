@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Bares, Heladerias, Restaurantes
+from .models import Bares, Heladerias, Restaurantes, Avatar
 
 class BarrappAdmin(admin.ModelAdmin):
     list_display = ("nombre","email","telefono")
@@ -9,3 +9,4 @@ class BarrappAdmin(admin.ModelAdmin):
 admin.site.register(Bares, BarrappAdmin)
 admin.site.register(Heladerias, BarrappAdmin)
 admin.site.register(Restaurantes, BarrappAdmin)
+admin.site.register(Avatar)

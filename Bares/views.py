@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Bares, Restaurantes, Heladerias
+from .models import Bares, Restaurantes, Heladerias, Avatar
 from .forms import Bar_formulario, Restaurante_formulario, Heladeria_formulario, Buscar_formulario, UserEditForm
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -11,7 +11,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 def inicio(request):
-    return render(request, 'inicio.html')
+    avatar = Avatar.objects.get(user=request.user)
+    return render(request, 'inicio.html', {'url': avatar.imagen.url})
 
 # CREACIÓN DE LISTAS
 
